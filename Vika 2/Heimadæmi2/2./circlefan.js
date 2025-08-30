@@ -15,6 +15,7 @@ var radius = 0.5;
 var center = vec2(0, 0);
 
 var points = [];
+var vBuffer;
 
 window.onload = function init() {
 
@@ -35,13 +36,18 @@ window.onload = function init() {
 	// Create the circle
     createCirclePoints( center, radius, numCirclePoints );
 
-    var vBuffer = gl.createBuffer();
+    vBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW);
     
     var vPosition = gl.getAttribLocation(program, "vPosition");
     gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(vPosition);
+
+        document.getElementById("slider").oninput = function(event) {
+        numCirclePoints = parseInt(event.target.value) * 5 + 5;  
+        updateCircle();
+    };
     
     render();
 }
@@ -60,6 +66,14 @@ function createCirclePoints( cent, rad, k )
     	points.push(p);
     }
 }
+
+function updateCircle() {
+    createCirclePoints(center, radius, numCirclePoints);
+    gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW);
+    render();
+}
+
 
 function render() {
     
