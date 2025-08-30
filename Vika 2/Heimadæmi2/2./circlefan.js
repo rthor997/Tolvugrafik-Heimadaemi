@@ -45,7 +45,7 @@ window.onload = function init() {
     gl.enableVertexAttribArray(vPosition);
 
         document.getElementById("slider").oninput = function(event) {
-        numCirclePoints = parseInt(event.target.value) * 5 + 5;  
+        numCirclePoints = parseInt(event.target.value, 10);  
         updateCircle();
     };
     
