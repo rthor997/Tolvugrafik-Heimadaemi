@@ -5,7 +5,7 @@ var gl;
 
 var points = [];
 
-var NumTimesToSubdivide = 5;
+var NumTimesToSubdivide = 4;
 
 window.onload = function init()
 {
@@ -21,12 +21,13 @@ window.onload = function init()
     // First, initialize the corners of our gasket with three points.
 
     var vertices = [
-        vec2( -1, -1 ),
-        vec2(  0,  1 ),
-        vec2(  1, -1 )
+        vec2( -1, 1 ),
+        vec2(  1,  1 ),
+        vec2(  1, -1 ), 
+        vec2( -1, -1 )
     ];
 
-    divideTriangle( vertices[0], vertices[1], vertices[2],
+    divideSquare( vertices[0], vertices[1], vertices[2], vertices[3],
                     NumTimesToSubdivide);
 
     //
@@ -55,34 +56,51 @@ window.onload = function init()
     render();
 };
 
-function triangle( a, b, c )
+function square( a, b, c, d )
 {
-    points.push( a, b, c );
+    //fyrsti þríhyrningur
+    points.push( a, b, c);
+    //annar þríhryningur
+    points.push( a, c, d);
 }
 
-function divideTriangle( a, b, c, count )
+function divideSquare( a, b, c, d, count )
 {
-
     // check for end of recursion
-
     if ( count === 0 ) {
-        triangle( a, b, c );
+        square( a, b, c, d);
     }
     else {
 
-        //bisect the sides
+    // Þessi partur var skirfaður af Jón Emil 
+    var aab = vec2( a[0] * (2/3) + b[0] * (1/3), a[1] * (2/3) + b[1] * (1/3) )
+    var abb = vec2( b[0] * (2/3) + a[0] * (1/3), b[1] * (2/3) + a[1] * (1/3) )
+    var bbc = vec2( b[0] * (2/3) + c[0] * (1/3), b[1] * (2/3) + c[1] * (1/3) )
+    var bcc = vec2( c[0] * (2/3) + b[0] * (1/3), c[1] * (2/3) + b[1] * (1/3) )
+    var ccd = vec2( c[0] * (2/3) + d[0] * (1/3), c[1] * (2/3) + d[1] * (1/3) )
+    var cdd = vec2( d[0] * (2/3) + c[0] * (1/3), d[1] * (2/3) + c[1] * (1/3) )
+    var dda = vec2( d[0] * (2/3) + a[0] * (1/3), d[1] * (2/3) + a[1] * (1/3) )
+    var daa = vec2( a[0] * (2/3) + d[0] * (1/3), a[1] * (2/3) + d[1] * (1/3) )
 
-        var ab = mix( a, b, 0.5 );
-        var ac = mix( a, c, 0.5 );
-        var bc = mix( b, c, 0.5 );
+    
+    var A = vec2( a[0] * (2/3) + c[0] * (1/3), a[1] * (2/3) + c[1] * (1/3) )
+    var B = vec2( b[0] * (2/3) + d[0] * (1/3), b[1] * (2/3) + d[1] * (1/3) )
+    var C = vec2( c[0] * (2/3) + a[0] * (1/3), c[1] * (2/3) + a[1] * (1/3) )
+    var D = vec2( d[0] * (2/3) + b[0] * (1/3), d[1] * (2/3) + b[1] * (1/3) )
 
-        --count;
+    
+    --count
 
-        // three new triangles
-
-        divideTriangle( a, ab, ac, count );
-        divideTriangle( c, ac, bc, count );
-        divideTriangle( b, bc, ab, count );
+    
+    divideSquare( a, aab, A, daa, count )
+    divideSquare( aab, abb, B, A, count )
+    divideSquare( abb, b, bbc, B, count )
+    divideSquare( B, bbc, bcc, C, count )
+    divideSquare( C, bcc, c, ccd, count )
+    divideSquare( D, C, ccd, cdd, count )
+    divideSquare( dda, D, cdd, d, count )
+    divideSquare( daa, A, D, dda, count )
+    //
     }
 }
 
