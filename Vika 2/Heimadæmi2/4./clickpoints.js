@@ -56,7 +56,7 @@ window.onload = function init() {
             vec2(center[0], center[1] + triangleSize)
         ];
         
-        // Add new point behind the others
+        
         gl.bufferSubData(gl.ARRAY_BUFFER, index*3*2*4, flatten(points));
 
 
