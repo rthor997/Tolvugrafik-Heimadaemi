@@ -11,6 +11,8 @@ var gl;
 // Þarf hámarksfjölda punkta til að taka frá pláss í grafíkminni
 var maxNumPoints = 200;  
 var index = 0;
+var maxNumTriangles = 200;
+var triangleSize = 0.05;
 
 window.onload = function init() {
 
@@ -31,7 +33,8 @@ window.onload = function init() {
     
     var vBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, 8*maxNumPoints, gl.DYNAMIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, maxNumTriangles*3*2*4, gl.DYNAMIC_DRAW);
+
     
     var vPosition = gl.getAttribLocation(program, "vPosition");
     gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
@@ -41,11 +44,21 @@ window.onload = function init() {
 
         gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer);
         
-        // Calculate coordinates of new point
-        var t = vec2(2*e.offsetX/canvas.width-1, 2*(canvas.height-e.offsetY)/canvas.height-1);
+
+        var x = 2*e.offsetX/canvas.width - 1;
+        var y = 2*(canvas.height - e.offsetY)/canvas.height - 1;
+        var center = vec2(x, y);
+
+    
+        var points = [
+            vec2(center[0] - triangleSize, center[1] - triangleSize),
+            vec2(center[0] + triangleSize, center[1] - triangleSize),
+            vec2(center[0], center[1] + triangleSize)
+        ];
         
         // Add new point behind the others
-        gl.bufferSubData(gl.ARRAY_BUFFER, 8*index, flatten(t));
+        gl.bufferSubData(gl.ARRAY_BUFFER, index*3*2*4, flatten(points));
+
 
         index++;
     } );
@@ -57,7 +70,7 @@ window.onload = function init() {
 function render() {
     
     gl.clear( gl.COLOR_BUFFER_BIT );
-    gl.drawArrays( gl.POINTS, 0, index );
+    gl.drawArrays( gl.TRIANGLES, 0, index*3);
 
     window.requestAnimFrame(render);
 }
