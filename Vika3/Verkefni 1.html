@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)https://hjalmtyr.github.io/forrit25/Angel/triangle.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- Vertex shader -->
+<script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec4 vPosition;
+
+void main() {
+    gl_Position = vPosition;
+}
+</script>
+
+<!-- Fragment shader -->
+<script id="fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+uniform vec4 uColor;
+
+void main() {
+    gl_FragColor = uColor;
+}
+</script>
+
+<script type="text/javascript" src="./Verkefni 1_files/webgl-utils.js"></script>
+<script type="text/javascript" src="./Verkefni 1_files/initShaders.js"></script>
+<script type="text/javascript" src="./Verkefni 1_files/Frogger.js"></script>
+</head>
+
+<body>
+<canvas id="gl-canvas" width="700" height="700">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+
+
+</body></html>
