@@ -1,0 +1,46 @@
+
+<!-- saved from url=(0057)https://hjalmtyr.github.io/forrit25/Angel/viewpoints.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script id="vertex-shader" type="x-shader/x-vertex">
+
+attribute  vec4 vPosition;
+
+uniform mat4 projection;
+uniform mat4 modelview;
+
+void main()
+{
+    gl_Position = projection * modelview * vPosition;
+} 
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+precision mediump float;
+   
+uniform vec4 fColor;
+
+void main()
+{
+    gl_FragColor = fColor;
+}
+</script>
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="./viewpoints.js"></script>
+
+</head><body>
+<h4>Sláið á 1, 2, ..., 9 til að skipta um sjónarhorn.  Núverandi sjónarhorn er fyrir neðan myndina</h4>
+<h4>Sláðu inn 0 til að fara í fyrsta personu</h4>
+<h4>Sláðu inn 9 til að fara í þriðju personu á flugvélini</h4>
+<h4>Örvalyklar hækka og lækka staðsetningu áhorfanda (fer eftir sjónarhorni)</h4>
+<canvas id="gl-canvas" width="700" height="700">
+<div id="Viewpoint">8: Til hliðar við bílinn</div>
+<div id="Height">Viðbótarhæð: 2</div>
+   
+<br>
+
+
+
+</canvas></body></html>
