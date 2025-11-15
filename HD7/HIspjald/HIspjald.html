@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)https://hjalmtyr.github.io/forrit25/Angel/HIspjald.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">
+    canvas { background: blue; }
+</style>
+
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+
+attribute  vec4 vPosition;
+attribute  vec2 vTexCoord;
+
+varying vec2 fTexCoord;
+
+uniform mat4 projection;
+uniform mat4 modelview;
+
+void main()
+{
+    fTexCoord = vTexCoord;
+    gl_Position = projection * modelview * vPosition;
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+
+precision mediump float;
+
+varying vec2 fTexCoord;
+uniform sampler2D texture;
+
+uniform float redColor;
+uniform float greenColor;
+uniform float blueColor;
+
+void main()
+{
+    vec4 tex = texture2D(texture, fTexCoord);
+    gl_FragColor = vec4(tex.r + redColor , tex.g + greenColor, tex.b + blueColor, 1.0);
+}
+</script>
+
+<script type="text/javascript" src="../../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../../Common/initShaders.js"></script>
+<script type="text/javascript" src="../../Common/MV.js"></script>
+<script type="text/javascript" src="./HIspjald.js"></script>
+
+
+</head><body style="overscroll-behavior-x: auto;">
+<canvas id="gl-canvas" width="600" height="600">
+<img id="texImage" src="./HI_Logo.jpg" hidden="">
+
+
+</canvas></body></html>
